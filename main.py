@@ -2,6 +2,7 @@ from fastapi import FastAPI, Query
 import os
 from model import Notes_create, Notes_info, Notes_list, Notes_text
 import json
+from datetime import datetime
 
 app = FastAPI()
 
@@ -28,12 +29,14 @@ def create():
         i +=1
     name = i
     with open(str(name)+'.json', 'w') as file:
-        note = {
-            'id' : name,
-            'text' : ''
+        a = Notes_text(id= name, text = '')
+        b = Notes_info(creat = datetime.now(), updated = datetime.now())
+        b = {k: str(v) for k, v in b.dict().items()}
+        c = {
+            'note' : a.dict(),
+            'data' : b
         }
-        a = Notes_text(**note)
-        json.dump(a.dict(), file)
+        json.dump(c, file)
 
     return name
 
@@ -43,3 +46,5 @@ def creaate_note(token: str = Query(...,)):
         id = create()
         return id
     return 'Eror_create'
+
+create()
