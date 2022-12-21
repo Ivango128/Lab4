@@ -106,3 +106,5 @@ def list_note(token: str):
         return Notes_list(notes_list=n_list)
     else:
         return 'Неверный токен'
+
+print()
