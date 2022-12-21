@@ -41,7 +41,7 @@ def create():
     return name
 
 @app.post('/create_note')
-def creaate_note(token: str):
+def create_note(token: str):
     if token == pr_token():
         id = create()
         return id
@@ -69,6 +69,19 @@ def up_note(token: str, id:int, text:str):
             json.dump(notes, file)
         note = notes['note']
         a = Notes_text(id=note['id'], text=note['text'])
+        return a
+    else:
+        pass
+
+@app.get('/get_info')
+def get_info(token: str, id:int):
+    if token == pr_token():
+        with open(str(id)+".json", "r") as file:
+            notes = json.load(file)
+        note = notes['data']
+        c_d = datetime.strptime(note['creat'],"%Y-%m-%d %H:%M:%S.%f")
+        u_d = datetime.strptime(note['updated'],"%Y-%m-%d %H:%M:%S.%f")
+        a = Notes_info(creat = c_d, updated = u_d)
         return a
     else:
         pass
