@@ -40,11 +40,37 @@ def create():
 
     return name
 
-@app.post('/cr')
-def creaate_note(token: str = Query(...,)):
+@app.post('/create_note')
+def creaate_note(token: str):
     if token == pr_token():
         id = create()
         return id
     return 'Eror_create'
 
-create()
+@app.get('/get_note')
+def get_note(token: str, id:int):
+    if token == pr_token():
+        with open(str(id)+".json", "r") as file:
+            notes = json.load(file)
+        note = notes['note']
+        a = Notes_text(id = note['id'], text = note['text'])
+        return a
+    else:
+        pass
+
+@app.patch('/up_note')
+def up_note(token: str, id:int, text:str):
+    if token == pr_token():
+        with open(str(id)+".json", "r") as file:
+            notes = json.load(file)
+        notes['note']['text'] = text
+        notes['data']['updated'] = str(datetime.now())
+        with open(str(id)+".json", "w") as file:
+            json.dump(notes, file)
+        note = notes['note']
+        a = Notes_text(id=note['id'], text=note['text'])
+        return a
+    else:
+        pass
+
+
