@@ -22,11 +22,14 @@ def filter():
         if filename.endswith(ext):
             filename = filename.replace('.json','')
             result.append(filename)
-    return result
+    result = list(map(int,result))
+    return sorted(result)
 
 def create():
     files = filter()
-    name = int(files[len(files)-1])+1
+    print(files)
+    name = files[len(files)-1]+1
+    print(files[len(files)-1])
     with open(str(name)+'.json', 'w') as file:
         a = Notes_text(id=name, text='')
         b = Notes_info(creat=datetime.now(), updated=datetime.now())
@@ -101,10 +104,8 @@ def delete_note(token: str, id:int):
 @app.get('/list_note')
 def list_note(token: str):
     if token == pr_token():
-        n_list : List[int] = list(map(int,filter()))
+        n_list : List[int] = filter()
         n_list.remove(0)
         return Notes_list(notes_list=n_list)
     else:
         return 'Неверный токен'
-
-print()
