@@ -15,14 +15,14 @@ def pr_token():
 
 
 def filter():
-    files = os.listdir(r'C:\Users\Lenova\PycharmProjects\Lab4')
+    files = os.listdir(r'C:\Users\lenovo\PycharmProjects\Lab4')
     result = [0]
     ext = '.json'
     for filename in files:
         if filename.endswith(ext):
             filename = filename.replace('.json','')
             result.append(filename)
-    return result
+    return sorted(list(map(int,result)))
 
 def create():
     files = filter()
@@ -89,7 +89,7 @@ def get_info(token: str, id:int):
 @app.delete('/delete_note')
 def delete_note(token: str, id:int):
     if token == pr_token():
-        path = r'C:\Users\Lenova\PycharmProjects\Lab4'+f'\{str(id)}.json'
+        path = r'C:\Users\lenovo\PycharmProjects\Lab4'+f'\{str(id)}.json'
         try:
             os.remove(path)
             return f'Заметка {id} удалена'
